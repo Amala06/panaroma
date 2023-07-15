@@ -5,6 +5,8 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'dart:async';
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,14 +88,41 @@ List<String> array=[];
 
 
 
+  // Future<void> _capturePhoto() async {
+  //   if (!_cameraController.value.isInitialized) {
+  //     return;
+  //   }
+
+  //   final directory = await path_provider.getTemporaryDirectory();
+  //   final String filePath = path.join(
+  //       directory.path, 'photo_${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+  //   if (_cameraController.value.isTakingPicture) {
+  //     return;
+  //   }
+
+  //   try {
+  //     await _cameraController.takePicture();
+  //     print('Photo captured: $filePath');
+  //     OpenFile.open(filePath);
+  //     array.add(filePath);
+  //     print("array length : is given below ");
+  //     print(array.length);
+  //     print("");
+  //   } catch (e) {
+  //     print('Failed to capture photo: $e');
+  //   }
+  // }
+
   Future<void> _capturePhoto() async {
     if (!_cameraController.value.isInitialized) {
       return;
     }
 
-    final directory = await path_provider.getTemporaryDirectory();
-    final String filePath = path.join(
-        directory.path, 'photo_${DateTime.now().millisecondsSinceEpoch}.jpg');
+    final directory = await path_provider.getExternalStorageDirectory();
+    final folderPath = path.join(directory!.path, 'MyAppImages');
+    final imagePath = path.join(
+        folderPath, 'photo_${DateTime.now().millisecondsSinceEpoch}.jpg');
 
     if (_cameraController.value.isTakingPicture) {
       return;
@@ -101,16 +130,44 @@ List<String> array=[];
 
     try {
       await _cameraController.takePicture();
-      print('Photo captured: $filePath');
-      OpenFile.open(filePath);
-      array.add(filePath);
-      print("array length : is given below ");
-      print(array.length);
-      print("");
+      print('Photo captured: $imagePath');
+      array.add(imagePath);
+      print('Array length: ${array.length}');
+      print('');
     } catch (e) {
       print('Failed to capture photo: $e');
     }
   }
+
+
+  // Future<void> _capturePhoto() async {
+  //   if (!_cameraController.value.isInitialized) {
+  //     return;
+  //   }
+
+  //   final directory = await path_provider.getTemporaryDirectory();
+  //   final String filePath = path.join(
+  //       directory.path, 'photo_${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+  //   if (_cameraController.value.isTakingPicture) {
+  //     return;
+  //   }
+
+  //   try {
+  //     await _cameraController.takePicture();
+  //     print('Photo captured: $filePath');
+  //     // await ImageGallerySaver.saveFile(filePath);
+  //     array.add(filePath);
+  //     print("array length: ${array.length}");
+  //     print("");
+  //   } catch (e) {
+  //     print('Failed to capture photo: $e');
+  //   }
+  // }
+
+
+
+
 
   @override
   void dispose() {
